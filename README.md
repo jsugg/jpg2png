@@ -1,4 +1,4 @@
-![Tests](https://github.com/jsugg/jpg2png/.github/workflows/test_PR.yml/badge.svg?event=push)
+![Tests](https://img.shields.io/github/workflow/status/jsugg/jpg2png/.github/workflows/test_PR.yml/badge.svg?event=push)
 
 # jpg2png Converter
 

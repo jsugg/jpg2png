@@ -49,19 +49,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Approve the pull request
-      uses: actions/github-script@v6
+      uses: juliangruber/approve-pull-request-action@v2.0.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          const { getOctokit, context } = require('@actions/github');
-          const octokit = getOctokit(process.env.GITHUB_TOKEN);
-          const owner = context.repo.owner;
-          const repo = context.repo.repo;
-          const pull_number = context.payload.pull_request.number;
-          await octokit.rest.pulls.createReview({
-            owner,
-            repo,
-            pull_number,
-            event: 'APPROVE',
-            body: 'Tests passed successfully. Approving the PR.'
-          });
+        number: ${{ github.event.pull_request.number }}

@@ -53,11 +53,11 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
-          const { Octokit } = require("@octokit/rest");
-          const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+          const { context, getOctokit } = require('@actions/github');
+          const octokit = getOctokit(process.env.GITHUB_TOKEN);
           const { owner, repo } = context.repo;
           const pull_number = context.payload.pull_request.number;
-          await octokit.pulls.createReview({
+          await octokit.rest.pulls.createReview({
             owner,
             repo,
             pull_number,

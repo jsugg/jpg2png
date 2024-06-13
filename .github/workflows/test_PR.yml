@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
+        python-version: [3.8, 3.9, 3.10, 3.11]
 
     steps:
     - name: Checkout code
@@ -53,9 +53,11 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
+          const { Octokit } = require("@octokit/rest");
+          const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
           const { owner, repo } = context.repo;
           const pull_number = context.payload.pull_request.number;
-          await github.pulls.createReview({
+          await octokit.pulls.createReview({
             owner,
             repo,
             pull_number,

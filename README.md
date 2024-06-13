@@ -1,3 +1,5 @@
+![Tests](https://github.com/jsugg/jpg2png/.github/workflows/test_PR.yml/badge.svg)
+
 # jpg2png Converter
 
 This is a Python tool to convert JPG images to PNG format, with optional features to improve image quality and upscale the image resolution.

@@ -8,15 +8,26 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12']
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: '3.11'
+        python-version: ${{ matrix.python-version }}
+
+    - name: Cache dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
 
     - name: Install dependencies
       run: |
@@ -34,15 +45,11 @@ jobs:
     if: success()
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
     - name: Approve the pull request
-      uses: actions/github-script@v6
+      uses: juliangruber/approve-pull-request-action@v2.0.0
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        script: |
-          github.pulls.createReview({
-            owner: context.repo.owner,
-            repo: context.repo.repo,
-            pull_number: context.payload.pull_request.number,
-            event: 'APPROVE',
-            body: 'Tests passed successfully. Approving the PR.'
-          })
+        number: ${{ github.event.pull_request.number }}

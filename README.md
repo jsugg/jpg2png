@@ -1,5 +1,3 @@
-![Tests](https://img.shields.io/github/workflow/status/jsugg/jpg2png/.github/workflows/test_PR.yml/badge.svg?event=push)
-
 # jpg2png Converter
 
 This is a Python tool to convert JPG images to PNG format, with optional features to improve image quality and upscale the image resolution.
